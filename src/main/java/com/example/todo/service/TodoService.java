@@ -29,17 +29,12 @@ public class TodoService {
     private MongoTemplate mongoTemplate;
 
     public Todo addTodo(Todo todoEntry) {
-        todoEntry.setIsDeleted(false);
-        todoEntry.setCreatedAt(now());
-        todoEntry.setUpdatedAt(now());
         Todo dbTodo = todoRepository.save(todoEntry);
-        System.out.println(dbTodo);
-        return todoEntry;
+        return dbTodo;
     }
 
     public List<Todo> getTodoList() {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("isDeleted").is(false));
+        Query query = new Query(Criteria.where("isDeleted").is(false));
         return mongoTemplate.find(query, Todo.class);
     }
 
@@ -51,7 +46,6 @@ public class TodoService {
         return ResponseEntity.ok(todo.get());
     } 
 
-    @SuppressWarnings("null")
     public ResponseEntity<?> updateTodo(ObjectId id, Todo updatedTodo) {
         ResponseEntity<?> dbTodoOptional = getTodoById(id);
         if (dbTodoOptional.getStatusCode().value() == 404) {
@@ -64,7 +58,6 @@ public class TodoService {
         return ResponseEntity.ok(dbTodo);
     }
 
-    @SuppressWarnings("null")
     public ResponseEntity<?> deleteTodo(ObjectId id) {
         ResponseEntity<?> dbTodoOptional = getTodoById(id);
         if (dbTodoOptional.getStatusCode().value() == 404) {

@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 
 @NoArgsConstructor
@@ -19,11 +21,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 public class Todo {
     @Id
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
-    @Indexed(unique = true)
+
     @NonNull
     private String task;
-    private Boolean isDeleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Boolean isDeleted = false;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }
