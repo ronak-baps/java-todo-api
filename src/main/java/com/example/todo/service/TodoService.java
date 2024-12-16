@@ -1,17 +1,17 @@
 package com.example.todo.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
-import org.springframework.data.mongodb.core.query.Query;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.todo.entity.Todo;
 import com.example.todo.repository.TodoRepository;
@@ -39,7 +39,7 @@ public class TodoService {
     }
 
     public ResponseEntity<?> getTodoById(ObjectId id) {
-        Optional<Todo> todo =  todoRepository.findByIdAndIsDeletedFalse(id);
+        Optional<Todo> todo = todoRepository.findByIdAndIsDeletedFalse(id);
         if(todo.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Todo not found");
         }

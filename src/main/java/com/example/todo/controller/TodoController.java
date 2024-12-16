@@ -18,35 +18,35 @@ import com.example.todo.entity.Todo;
 import com.example.todo.service.TodoService;
 
 @RestController
-@RequestMapping
+@RequestMapping("/todos")
 public class TodoController {
     
     @Autowired
     private TodoService todoService;
 
-    @GetMapping("/todos")
+    @GetMapping
     public ResponseEntity<?> getTodoList() {
         List<Todo> data = todoService.getTodoList();
         return ResponseEntity.ok(data);
     }
 
-    @PostMapping("/todos")
+    @PostMapping
     public ResponseEntity<?> addTodo(@RequestBody Todo task) {
         Todo dbTodo = todoService.addTodo(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(dbTodo);
     }
     
-    @GetMapping("/todos/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<?> getTodoById(@PathVariable ObjectId id) {
         return todoService.getTodoById(id);
     }
 
-    @PutMapping("/todos/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?> updateTodo(@PathVariable ObjectId id, @RequestBody Todo updateTodo) {
         return todoService.updateTodo(id, updateTodo);
     }
 
-    @DeleteMapping("/todos/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteTodo(@PathVariable ObjectId id) {
         return todoService.deleteTodo(id);
     }
